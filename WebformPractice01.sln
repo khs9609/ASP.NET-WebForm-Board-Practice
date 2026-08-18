@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35527.113
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebformPractice01", "WebformPractice01\WebformPractice01.csproj", "{6A6347C4-A0AD-412A-B4F6-329E8828E5AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbConnection", "DbCon\DbConnection.csproj", "{C3B8F2B3-68DB-4660-8F65-4E005B40A7F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6A6347C4-A0AD-412A-B4F6-329E8828E5AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A6347C4-A0AD-412A-B4F6-329E8828E5AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A6347C4-A0AD-412A-B4F6-329E8828E5AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A6347C4-A0AD-412A-B4F6-329E8828E5AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3B8F2B3-68DB-4660-8F65-4E005B40A7F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3B8F2B3-68DB-4660-8F65-4E005B40A7F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3B8F2B3-68DB-4660-8F65-4E005B40A7F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3B8F2B3-68DB-4660-8F65-4E005B40A7F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
