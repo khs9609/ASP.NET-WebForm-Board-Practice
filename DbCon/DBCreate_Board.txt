@@ -1,0 +1,401 @@
+﻿USE [Board]
+GO
+/****** Object:  Table [dbo].[tb_Board]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_Board](
+	[ItemID] [int] IDENTITY(1,1) NOT NULL,
+	[Title] [nvarchar](255) NOT NULL,
+	[Contents] [nvarchar](max) NOT NULL,
+	[CreateUserID] [nvarchar](50) NOT NULL,
+	[CreateUserName] [nvarchar](100) NOT NULL,
+	[CreateDT] [datetime] NOT NULL,
+	[UpdateDT] [datetime] NULL,
+	[ViewCount] [int] NOT NULL,
+ CONSTRAINT [PK_tb_Board] PRIMARY KEY CLUSTERED 
+(
+	[ItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tb_LikeOrDisLike]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_LikeOrDisLike](
+	[ItemID] [int] NOT NULL,
+	[UserID] [nvarchar](30) NOT NULL,
+	[CreateDatetime] [datetime] NULL,
+	[Type] [char](1) NOT NULL,
+ CONSTRAINT [PK_tb_LikeOrDisLike] PRIMARY KEY CLUSTERED 
+(
+	[ItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[tb_Report]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_Report](
+	[ItemID] [int] NOT NULL,
+	[UserID] [nvarchar](30) NOT NULL,
+	[ReportCode] [nvarchar](10) NOT NULL,
+	[Reason] [nvarchar](255) NULL,
+	[CreateDatetime] [datetime] NOT NULL,
+ CONSTRAINT [PK_tb_Report] PRIMARY KEY CLUSTERED 
+(
+	[ItemID] ASC,
+	[UserID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[tb_Board] ADD  CONSTRAINT [DF_tb_Board_ViewCount]  DEFAULT ((0)) FOR [ViewCount]
+GO
+/****** Object:  StoredProcedure [dbo].[Delete_Board_LikeOrDislike]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[Delete_Board_LikeOrDislike] 
+	-- Add the parameters for the stored procedure here
+	@itemID int,
+	@UserID nvarchar(30),
+	@Type char(1) = ''
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	IF EXISTS(SELECT UserID FROM tb_LikeOrDisLike where ItemID=@itemID and UserID=@UserID)
+	BEGIN
+		DELETE FROM tb_LikeOrDisLike WHERE ItemID=@itemID AND UserID = @UserID AND [Type]=@Type
+	END
+	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Add_Board_ViewCount]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- up_Add_Board_ViewCount @itemID='50'
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Add_Board_ViewCount]
+	-- Add the parameters for the stored procedure here
+	@ItemID int
+AS
+	declare @ViewCount int
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	update tb_board set ViewCount = ViewCount + 1 where ItemID=@ItemID
+
+
+	SELECT ViewCount FROM tb_Board WHERE ItemID = @ItemID;
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Insert_Board_LikeOrDisLike]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Insert_Board_LikeOrDisLike]
+	-- Add the parameters for the stored procedure here
+	@itemID int,
+	@UserID nvarchar(30),
+	@CreateDT datetime = null,
+	@Type char(1) = ''
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	IF NOT EXISTS(SELECT UserID FROM tb_LikeOrDisLike where ItemID=@itemID and UserID=@UserID)
+	BEGIN
+		INSERT INTO tb_LikeOrDisLike VALUES(@itemID, @UserID, @CreateDT, @Type)
+	END
+	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Insert_BoardItem]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Insert_BoardItem]
+	-- Add the parameters for the stored procedure here
+	@Title nvarchar(100),
+	@Contents nvarchar(500),
+	@UserID nvarchar(20)
+AS
+	declare @UserName nvarchar(20)
+
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select @UserName=UserName from [HR].[DBO].[tb_User] where UserID=@UserID
+
+    -- Insert statements for procedure here
+	insert into tb_Board values(@Title, @Contents, @UserID, @UserName, GETDATE());
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Insert_BoardReport]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Insert_BoardReport]
+	-- Add the parameters for the stored procedure here
+	@ItemID int,
+	@UserID nvarchar(30),
+	@ReportType nvarchar(10),
+	@Reason nvarchar(255)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+
+	Declare @Result int = 0;
+
+
+    -- Insert statements for procedure here
+	IF NOT EXISTS(select UserID FROM tb_Report where ItemID = @ItemID AND UserID = @UserID)
+	BEGIN
+		Insert into tb_Report values(@ItemID, @UserID, @ReportType, @Reason, getDate())
+		select @Result = 1
+	END
+
+	select @Result
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_List_BoardSelect]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- exec [up_List_BoardSelect]
+-- exec [up_List_BoardSelect]@PageIndex=2, @PageSize=3
+-- =============================================
+CREATE PROCEDURE [dbo].[up_List_BoardSelect]
+	-- Add the parameters for the stored procedure here
+	@PageIndex INT = 1,
+	@PageSize INT = 3
+AS
+BEGIN
+
+
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	;WITH BoardList AS
+    (
+        SELECT
+            ROW_NUMBER() OVER (ORDER BY ItemID DESC) AS RowNum,
+            COUNT(*) OVER() AS TotalCount,
+
+            ItemID,
+            Title,
+            CreateUserID,
+            CreateUserName,
+            CreateDT
+
+        FROM tb_Board
+    )
+
+    SELECT
+        ItemID,
+        Title,
+        CreateUserID,
+        CreateUserName,
+        CreateDT,
+        TotalCount
+
+    FROM BoardList
+
+    WHERE RowNum BETWEEN
+        ((@PageIndex - 1) * @PageSize) + 1
+        AND (@PageIndex * @PageSize)
+
+    ORDER BY RowNum;
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Select_Board_LikeOrDislike]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Select_Board_LikeOrDislike] 
+	-- Add the parameters for the stored procedure here
+	@itemID int,
+	@Type char(1) = ''
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT Count(1) FROM tb_LikeOrDisLike where ItemID=@itemID AND [Type]=@Type
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Select_BoardItem]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: 2026.07.27
+-- Description:	게시글 상세보기
+-- EXEC up_Select_BoardItem @ItemID=20
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Select_BoardItem]	-- Add the parameters for the stored procedure here
+	@ItemID int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	select * from tb_Board where ItemID = @ItemID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Select_CheckCreator]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- exec up_Select_CheckCreator @ItemID='10', @UserID='S0001'
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Select_CheckCreator]
+	-- Add the parameters for the stored procedure here
+	@ItemID int,
+	@UserID nvarchar(20)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT Count(1) from tb_Board where ItemID = @ItemID and CreateUserID = @UserID
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Update_Board_LikeOrDislike]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Update_Board_LikeOrDislike] 
+	-- Add the parameters for the stored procedure here
+	@itemID int,
+	@UserID nvarchar(30),
+	@Type char(1) = ''
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+	IF NOT EXISTS(SELECT UserID FROM tb_LikeOrDisLike where ItemID=@itemID and UserID=@UserID)
+		BEGIN
+			INSERT INTO tb_LikeOrDisLike VALUES(@itemID, @UserID, GETDATE(), @Type)
+		END 
+	ELSE IF EXISTS (SELECT UserID FROM tb_LikeOrDisLike where ItemID=@itemID and UserID=@UserID)
+		BEGIN
+			DELETE FROM tb_LikeOrDisLike WHERE ItemID=@itemID AND UserID = @UserID AND [Type]=@Type
+		END
+	
+END
+GO
+/****** Object:  StoredProcedure [dbo].[up_Update_BoardItem]    Script Date: 2026-08-19 오전 1:43:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+CREATE PROCEDURE [dbo].[up_Update_BoardItem]
+	-- Add the parameters for the stored procedure here
+	@ItemID int,
+	@title nvarchar(100),
+	@Contents nvarchar(500)
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	UPDATE tb_Board 
+	set Title = @title,
+		Contents = @Contents,
+		UpdateDT = getDate()
+	where ItemID=@ItemID
+
+END
+GO

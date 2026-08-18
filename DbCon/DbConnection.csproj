@@ -45,5 +45,9 @@
     <Compile Include="DbCon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="DBCreate_Board.txt" />
+    <Content Include="DBCreate_HR.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

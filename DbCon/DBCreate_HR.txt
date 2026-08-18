@@ -1,0 +1,18 @@
+﻿USE [HR]
+GO
+/****** Object:  Table [dbo].[tb_User]    Script Date: 2026-08-19 오전 1:45:23 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tb_User](
+	[UserID] [nvarchar](50) NOT NULL,
+	[UserName] [nvarchar](100) NOT NULL,
+	[PhoneNumber] [nvarchar](100) NULL,
+	[EmaillAddress] [nvarchar](255) NULL,
+	[Password] [nvarchar](255) NOT NULL,
+	[UserCode] [uniqueidentifier] NOT NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[tb_User] ADD  CONSTRAINT [DF_tb_User_UserCode]  DEFAULT (newid()) FOR [UserCode]
+GO
