@@ -13,7 +13,7 @@ using WebformPractice01.Entity;
 
 namespace WebformPractice01.Pages.Board
 {
-    public partial class Edit : System.Web.UI.Page
+    public partial class View : System.Web.UI.Page
     {
         public BoardDTO dto { get; set; }
         public int ItemID {get; set;}

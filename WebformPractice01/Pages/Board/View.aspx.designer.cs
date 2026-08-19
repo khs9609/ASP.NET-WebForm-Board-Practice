@@ -11,7 +11,7 @@ namespace WebformPractice01.Pages.Board
 {
 
 
-    public partial class Edit
+    public partial class View
     {
 
         /// <summary>

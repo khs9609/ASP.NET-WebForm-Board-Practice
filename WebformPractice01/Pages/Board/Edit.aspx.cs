@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -10,29 +11,29 @@ using WebformPractice01.Entity;
 
 namespace WebformPractice01.Pages.Board
 {
-    public partial class Edit1 : System.Web.UI.Page
+    public partial class Edit : System.Web.UI.Page
     {
-        protected int ItemID { get; set; }
-        protected bool IsNew { get; set; }
-
         protected String _UserID { get; set; }
+        protected int ItemID { get; set; }
+
+        protected bool IsNew = false;
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(lbl_CreateUserName.Text)) lbl_CreateUserName.Text = "홍길동";
             if (string.IsNullOrEmpty(_UserID)) _UserID = "S0001";
-            if (!string.IsNullOrEmpty(ItemID.ToString())) ItemID = Convert.ToInt32(Request.QueryString["ItemID"]);
+            if (string.IsNullOrEmpty(lbl_CreateUserName.Text)) lbl_CreateUserName.Text = "홍길동";
+            if (string.IsNullOrEmpty(Request.QueryString["ItemID"]) || ItemID == 0) IsNew = true;
+            if (!string.IsNullOrEmpty(Request.QueryString["ItemID"])) ItemID = ItemID = Convert.ToInt32(Request.QueryString["ItemID"]); ;
 
             if (!IsPostBack)
             {
-                
-                IsNew = string.IsNullOrEmpty(ItemID.ToString());
-
                 if (!IsNew)
                 {
                     InitData(ItemID);
                 }
             }
+
+
         }
 
         public void InitData(int id)
@@ -70,6 +71,29 @@ namespace WebformPractice01.Pages.Board
                 ctx.UpdateBoardItem(dto);
             }
 
+            /* 단일 파일 저장
+            if (FileUpload1.HasFile)
+            {
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+                string filePath = Path.Combine(desktopPath, FileUpload1.FileName);
+                FileUpload1.SaveAs(filePath);
+            }
+            */
+
+            if (FileUpload1.HasFiles)
+            {
+                string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
+                foreach (HttpPostedFile file in FileUpload1.PostedFiles)
+                {
+                    string filePath = Path.Combine(
+                        desktopPath,
+                        file.FileName
+                    );
+
+                    file.SaveAs(filePath);
+                }
+            }
 
             Response.Redirect("List.aspx");
         }

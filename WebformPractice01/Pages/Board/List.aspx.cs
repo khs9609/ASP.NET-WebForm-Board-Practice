@@ -5,6 +5,7 @@ using System.Drawing.Printing;
 using System.Text;
 using WebformPractice01.Entity;
 using DbConnection;
+using WebformPractice01.Common;
 
 namespace WebformPractice01.Pages.Board
 {
@@ -32,7 +33,9 @@ namespace WebformPractice01.Pages.Board
                 }
 
                 Search();
-                BindPaging();
+                //BindPaging();
+
+                ltPaging.Text = PagingHelper.CreatePaging(CurrentPage, PageSize, TotalPage, Request.Url.AbsolutePath);
 
                 int startPage = ((CurrentPage - 1) / PageBlock) * PageBlock + 1;
                 int endPage = Math.Min(startPage + PageBlock - 1, TotalPage);
