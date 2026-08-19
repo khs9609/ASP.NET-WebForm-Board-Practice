@@ -38,7 +38,12 @@
         }
 
         .board_button_area button, .board_button_area input[type=submit]  {
-            width : 60px;
+            width : 70px; 
+            height : 38px;
+            color : #262626;
+            background-color : #ddd;
+            border : 1px solid #ddd;
+            border-radius : 3px;
         }
 
     </style>
@@ -164,8 +169,8 @@
 
     <div class="board_button_area">
         <div>
-           <button id="btnList" type="button" onclick="ToList();" style="border:none;background:#7e7e7e;color:#fff;">목록</button>
-            <asp:Button ID="btnEdit" Text="수정" OnClick="btnEdit_Click"  style="border:none;background:#7e7e7e;color:#fff;" runat="server" />
+           <button id="btnList" type="button" onclick="ToList();">목록</button>
+           <asp:Button ID="btnEdit" Text="수정" OnClick="btnEdit_Click" runat="server" />
         </div>
     </div>
     <asp:Button Visible="false" runat="server"/>

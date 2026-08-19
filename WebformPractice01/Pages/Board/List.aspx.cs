@@ -6,6 +6,8 @@ using System.Text;
 using WebformPractice01.Entity;
 using DbConnection;
 using WebformPractice01.Common;
+using System.Reflection;
+using System.Security.Policy;
 
 namespace WebformPractice01.Pages.Board
 {
@@ -16,7 +18,7 @@ namespace WebformPractice01.Pages.Board
         protected DataTable BoardList2;
 
         protected int CurrentPage = 1;
-        protected int PageSize = 10;
+        protected int PageSize = 4;
         protected int PageBlock = 10;
 
         protected int TotalCount;
@@ -33,12 +35,8 @@ namespace WebformPractice01.Pages.Board
                 }
 
                 Search();
-                //BindPaging();
 
                 ltPaging.Text = PagingHelper.CreatePaging(CurrentPage, PageSize, TotalPage, Request.Url.AbsolutePath);
-
-                int startPage = ((CurrentPage - 1) / PageBlock) * PageBlock + 1;
-                int endPage = Math.Min(startPage + PageBlock - 1, TotalPage);
             }
         }
 
@@ -73,49 +71,6 @@ namespace WebformPractice01.Pages.Board
                     TotalPage = (int)Math.Ceiling((double)TotalCount / PageSize);
                 }
             }
-        }
-
-        private void BindPaging()
-        {
-            StringBuilder sb = new StringBuilder();
-
-            int startPage = ((CurrentPage - 1) / PageBlock) * PageBlock + 1;
-            int endPage = Math.Min(startPage + PageBlock - 1, TotalPage);
-
-
-            // 첫 번째 블록이 아닐 때만
-            if (startPage > 1)
-            {
-                sb.Append("<a href='?page=1'>[&lt;&lt;]</a>");
-                sb.Append($"<a href='?page={startPage - 1}'>[&lt;]</a>");
-            }
-
-            // 페이지 번호
-            for (int i = startPage; i <= endPage; i++)
-            {
-                if (i == CurrentPage)
-                {
-                    sb.Append($"<strong>[{i}]</strong>");
-                }
-                else
-                {
-                    sb.Append($"<a href='?page={i}'>{i}</a>");
-                }
-            }
-
-            // 다음 블록
-            if (endPage < TotalPage)
-            {
-                sb.Append($"<a href='?page={endPage + 1}'>[&gt;]</a>");
-            }
-
-            // 마지막
-            if (CurrentPage < TotalPage)
-            {
-                sb.Append($"<a href='?page={TotalPage}'>[&gt;&gt;]</a>");
-            }
-
-            ltPaging.Text = sb.ToString();
         }
 
         protected void btnWrite_Click(object sender, EventArgs e)

@@ -21,7 +21,6 @@ namespace WebformPractice01.Pages.Board
         protected void Page_Load(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_UserID)) _UserID = "S0001";
-            if (string.IsNullOrEmpty(lbl_CreateUserName.Text)) lbl_CreateUserName.Text = "홍길동";
             if (string.IsNullOrEmpty(Request.QueryString["ItemID"]) || ItemID == 0) IsNew = true;
             if (!string.IsNullOrEmpty(Request.QueryString["ItemID"])) ItemID = ItemID = Convert.ToInt32(Request.QueryString["ItemID"]); ;
 

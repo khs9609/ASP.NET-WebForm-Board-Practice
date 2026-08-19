@@ -1,21 +1,69 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Edit.aspx.cs" ValidateRequest="false" Inherits="WebformPractice01.Pages.Board.Edit" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <style>
-        .board_edit > * {
-            margin-bottom : 20px;
+        .board_edit > * {margin-bottom : 20px;}
+
+        .board_edit_area {
+            width: 100%;
+        }
+
+        .board_edit_area .title {
+            margin-bottom : 15px;
+        }
+
+
+        .board_edit_area input[type="text"],
+        .board_edit_area textarea {
+            width: 100%;
+            padding : 5px 7px;
+            border : 1px solid #bcbcbc;
+            border-radius : 3px;
+        }
+
+        .board_edit_area textarea {
+            resize : none;
+
         }
 
         #tbBoardEdit { border-collapse : collapse;}
         #tbBoardEdit th, #tbBoardEdit td { border : 1px solid #ddd;}
         #tbBoardEdit th > *, #tbBoardEdit td > * {margin : 3px;}
 
+
+        .board_attach_area #btnAttachAdd {
+            font-size : 12px;width : 4em;height : 2em; border : 1px solid #ddd;
+        }
+
+
+        .attach_area {
+            display : flex; 
+            min-height : 80px;
+            background-color:rgb(248 248 248);
+        }
+
+        .attach_area .attach_add {
+            width : 15%;
+            text-align : center;
+            
+            margin-right : 2px;
+            padding-top : 12px;
+            
+            border : 1px solid #bcbcbc;
+            border-radius : 3px;
+        }
+        .attach_area .attach_list {
+            width : 100%; 
+            border : 1px solid #bcbcbc;
+            border-radius : 3px; 
+            padding-left : 5px;
+        }
+
+
         .btn_area button, .btn_area input[type=submit] {
             border : 1px solid #ddd;
             width : 70px; height : 38px;
-            /*background-color : rgb(77 148 248);*/
-            /*color : #fcfcfc;*/
             background-color : #ddd;
-            color : #fafafa;
+            color : #262626;
             
         }
     </style>
@@ -33,40 +81,31 @@
         });
     </script>
 
+
+
     <div class="board_edit">
-        <div class="board_table_area" >
-            <table id="tbBoardEdit" style="width : 100%;">
-                <colgroup>
-                    <col style="width: 15%;" />
-                    <col />
-                </colgroup>
-                <tr>
-                    <th>제목</th>
-                    <td>
-                        <asp:TextBox ID="txt_Title" Width="100%" runat="server" />
-                    </td>
-                </tr>
-                <tr>
-                    <th>작성자</th>
-                    <td>
-                        <asp:Literal ID="lbl_CreateUserName" runat="server"></asp:Literal>
-                    </td>
-                </tr>
-                <tr>
-                    <th>내용</th>
-                    <td>
-                        <asp:TextBox ID="txt_Contents" Width="500" TextMode="MultiLine" runat="server" />
-                    </td>
-                </tr>
-            </table>
+
+        <div class="board_title_area">
+            <h2>게시판</h2>
         </div>
 
-        <div class="attach_area">
-            <div style="display : flex; background-color:rgb(248 248 248);min-height : 60px;">
-                <div style="width : 15%;margin-right : 2px; border : 1px solid #ddd; text-align : center;">
-                    <button type="button" id="btnAttachAdd"  style="width : 99%;height : 99%; border : 1px solid #ddd;" onclick="document.getElementById('<%=FileUpload1.ClientID %>').click()">추 가</button>
+        <div class="board_edit_area">
+            <div class="title">
+                <asp:TextBox ID="txt_Title" Width="100%" placeholder="제목" runat="server" />
+            </div>
+            <div class="content">
+                <asp:TextBox ID="txt_Contents" TextMode="MultiLine" Rows="10" runat="server" />
+            </div>
+        </div>
+        
+
+        <div class="board_attach_area">
+            <div class="attach_area">
+                <div class="attach_add">
+                    <p style="margin-bottom : 3px;">첨부파일</p>
+                    <button type="button" id="btnAttachAdd" onclick="document.getElementById('<%=FileUpload1.ClientID %>').click()">추가</button>
                 </div>
-                <div style="width : 100%; border : 1px solid #ddd; padding-left : 5px;">
+                <div class="attach_list">
                     <span id="spFileName"></span>
                 </div>
             </div>

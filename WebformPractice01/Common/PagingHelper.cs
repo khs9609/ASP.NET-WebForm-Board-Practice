@@ -21,8 +21,8 @@ namespace WebformPractice01.Common
             // 이전 페이지 (첫 페이지가 아닐 경우)
             if (StartPage > 1)
             {
-                sb.Append($"<a href='{PageUrl}?page=1'>[&lt;&lt;]</a>");
-                sb.Append($"<a href='{PageUrl}?page={StartPage-1}'>[&lt;]</a>");
+                sb.Append($"<a href='{PageUrl}?page=1'>&lt;&lt;</a>");
+                sb.Append($"<a href='{PageUrl}?page={StartPage-1}'>&lt;</a>");
             }
 
             // 페이지 번호 생성
@@ -30,7 +30,7 @@ namespace WebformPractice01.Common
             {
                 if(i == CurrentPage)
                 {
-                    sb.Append($"<b'>{i}</b>");
+                    sb.Append($"<a style='pointer-events: none;cursor: default;'><b>{i}</b></a>");
                     continue;
                 }
                 sb.Append($"<a href='{PageUrl}?page={i}'>{i}</a>");
@@ -39,13 +39,13 @@ namespace WebformPractice01.Common
             // 다음 페이지
             if(EndPage < TotalPage)
             {
-                sb.Append($"<a href='{PageUrl}?page={EndPage+1}'>[&gt;]</a>");
+                sb.Append($"<a href='{PageUrl}?page={EndPage+1}'>&gt;</a>");
             }
 
             // 마지막 페이지
             if (CurrentPage < TotalPage && PageSize < TotalPage)
             {
-                sb.Append($"<a href='{PageUrl}?page={TotalPage}'>[&gt;&gt;]</a>");
+                sb.Append($"<a href='{PageUrl}?page={TotalPage}'>&gt;&gt;</a>");
             }
 
 
