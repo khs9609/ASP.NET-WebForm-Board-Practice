@@ -18,8 +18,8 @@ namespace WebformPractice01.Pages.Board
         protected DataTable BoardList2;
 
         protected int CurrentPage = 1;
-        protected int PageSize = 4;
-        protected int PageBlock = 10;
+        protected int PageSize = 10; // 출력 개수
+        protected int PageBlock = 5; // 페이지 개수
 
         protected int TotalCount;
         protected int TotalPage;
@@ -33,14 +33,17 @@ namespace WebformPractice01.Pages.Board
                 {
                     CurrentPage = Convert.ToInt32(Request["page"]);
                 }
+                string SearchType = dropSearchType.SelectedValue;
+                string SearchKeyword = txtSearchKeyword.Text;
 
-                Search();
+                Search(SearchType, SearchKeyword);
 
-                ltPaging.Text = PagingHelper.CreatePaging(CurrentPage, PageSize, TotalPage, Request.Url.AbsolutePath);
+                // 페이징 Control 출력
+                ltPaging.Text = PagingHelper.CreatePaging(CurrentPage, PageBlock, TotalPage, Request.Url.AbsolutePath);
             }
         }
 
-        private void Search()
+        private void Search(string type = "", string keyword = "")
         {
             BoardList.Clear();
 
@@ -60,7 +63,8 @@ namespace WebformPractice01.Pages.Board
                         ItemID = Convert.ToInt32(row["ItemID"]),
                         Title = row["Title"].ToString(),
                         CreateUserName = row["CreateUserName"].ToString(),
-                        CreateDT = Convert.ToDateTime(row["CreateDT"])
+                        CreateDT = Convert.ToDateTime(row["CreateDT"]),
+                        ViewCount = Convert.ToInt32(row["ViewCount"])
                     });
                 }
 
@@ -76,6 +80,11 @@ namespace WebformPractice01.Pages.Board
         protected void btnWrite_Click(object sender, EventArgs e)
         {
             Response.Redirect("Edit.aspx");
+        }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(Request.);
         }
     }
 }

@@ -13,6 +13,7 @@ namespace WebformPractice01.Entity
         public string CreateUserID { get; set; }
         public string CreateUserName { get; set; }
         public DateTime CreateDT { get; set; }
+        public int ViewCount { get; set; }
     }
 
     public class BoardReportDTO

@@ -3,6 +3,7 @@
     <style>
         .board_area {
             font-size : 14px;
+            color : #303030;
         }
 
         .board_area a {
@@ -11,8 +12,22 @@
             color : #303030;
         }
 
+        .board_area .board_title_area {
+            margin-bottom : 30px;
+        }
+
+        .board_table_area .board_head_element{
+            display : flex;
+            justify-content : space-between;
+            margin : 10px 0px;
+        }
+
+        .board_table_area .board_head_element .search_element * {
+            height : 30px;
+        }
+
         .board_table {
-            width : 98%;
+            width : 100%;
             border-collapse : collapse;
             border : none;
         }
@@ -23,7 +38,6 @@
 
         }
 
-
         .board_table th {
             padding : 16px 7px;
             background-color : #eaeaea;
@@ -31,8 +45,8 @@
         }
 
         .board_table td {
-            padding : 12px 7px;
-            color : #bbbbbb ;
+            padding : 13px 7px;
+            color : #bbbbbb;
             font-weight : bold;
             font-family: "Malgun Gothic", "맑은 고딕", sans-serif;
 
@@ -77,37 +91,59 @@
     </script>
 
     <div class="board_area">
-        <table class="board_table">
-            <colgroup>
-                <col width="12%"/>
-                <col />
-                <col width="12%"/>
-                <col width="15%"/>
-                <col width="12%"/>
-            </colgroup>
-            <thead>
-                <tr>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>작성자</th>
-                    <th>등록일</th>
-                    <th>조회수</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            <% foreach (var item in BoardList) { %>
-            <tr>
-                <td><%= item.ItemID %></td>
-                <td style="text-align:left;"><a href="./View.aspx?ItemID=<%= item.ItemID %>"><%= item.Title %></a></td>
-                <td><%= item.CreateUserName %></td>
-                <td><%= item.CreateUserName %></td>
-                <td><%= item.CreateUserName %></td>
-            </tr>
+        <div class="board_title_area">
+            <h2>Board</h2>
+        </div>
 
-            <% } %>
-            </tbody>
-        </table>
+        <div class="board_table_area">
+            <div class="board_head_element">
+                <div class="totalcount_element">
+                    총 <span style="color:red"><%= TotalCount %></span>건
+                </div>
+
+                <div class="search_element">
+                    <asp:DropDownList ID="dropSearchType" CssClass="dropdown_element" runat="server">
+                        <asp:ListItem Value="Title" Selected="True">제목</asp:ListItem>
+                        <asp:ListItem Value="Content">본문</asp:ListItem>
+                        <asp:ListItem Value="Author">작성자</asp:ListItem>
+                    </asp:DropDownList>
+                    <asp:TextBox ID="txtSearchKeyword" Width="250" runat="server" />
+                    <asp:Button ID="btnSearch" Text="🔍" OnClick="btnSearch_Click" runat="server" />
+                </div>
+            </div>
+
+            <div>
+                <table class="board_table">
+                    <colgroup>
+                        <col width="12%"/>
+                        <col />
+                        <col width="12%"/>
+                        <col width="15%"/>
+                        <col width="12%"/>
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th>번호</th>
+                            <th>제목</th>
+                            <th>작성자</th>
+                            <th>등록일</th>
+                            <th>조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <% foreach (var item in BoardList) { %>
+                    <tr>
+                        <td><%= item.ItemID %></td>
+                        <td style="text-align:left;"><a href="./View.aspx?ItemID=<%= item.ItemID %>"><%= item.Title %></a></td>
+                        <td><%= item.CreateUserName %></td>
+                        <td><%= item.CreateDT.ToString("yyyy-MM-dd hh:mm") %></td>
+                        <td><%= item.ViewCount %></td>
+                    </tr>
+                    <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 
         <div class="paging_area">
             <div class="paging">
