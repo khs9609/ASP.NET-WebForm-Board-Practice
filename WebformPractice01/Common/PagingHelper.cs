@@ -10,7 +10,7 @@ namespace WebformPractice01.Common
     {
 
         // 
-        public static String CreatePaging(int CurrentPage, int PageSize, int TotalPage, string PageUrl )
+        public static String CreatePaging(int CurrentPage, int PageSize, int TotalPage, string PageUrl, string QueryString )
         {
             StringBuilder sb = new StringBuilder();
 
@@ -21,8 +21,8 @@ namespace WebformPractice01.Common
             // 이전 페이지 (첫 페이지가 아닐 경우)
             if (StartPage > 1)
             {
-                sb.Append($"<a href='{PageUrl}?page=1'>&lt;&lt;</a>");
-                sb.Append($"<a href='{PageUrl}?page={StartPage-1}'>&lt;</a>");
+                sb.Append($"<a href='{PageUrl}?{QueryString}&page=1'>&lt;&lt;</a>");
+                sb.Append($"<a href='{PageUrl}?{QueryString}&page={StartPage-1}'>&lt;</a>");
             }
 
             // 페이지 번호 생성
@@ -33,25 +33,24 @@ namespace WebformPractice01.Common
                     sb.Append($"<a style='pointer-events: none;cursor: default;'><b>{i}</b></a>");
                     continue;
                 }
-                sb.Append($"<a href='{PageUrl}?page={i}'>{i}</a>");
+                sb.Append($"<a href='{PageUrl}?{QueryString}&page={i}'>{i}</a>");
             }
 
             // 다음 페이지
             if(EndPage < TotalPage)
             {
-                sb.Append($"<a href='{PageUrl}?page={EndPage+1}'>&gt;</a>");
+                sb.Append($"<a href='{PageUrl}?{QueryString}&page={EndPage+1}'>&gt;</a>");
             }
 
             // 마지막 페이지
             if (CurrentPage < TotalPage && PageSize < TotalPage)
             {
-                sb.Append($"<a href='{PageUrl}?page={TotalPage}'>&gt;&gt;</a>");
+                sb.Append($"<a href='{PageUrl}?{QueryString}&page={TotalPage}'>&gt;&gt;</a>");
             }
 
 
             return sb.ToString();
         }
-
 
     }
 }

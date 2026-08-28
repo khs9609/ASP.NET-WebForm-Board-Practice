@@ -16,14 +16,14 @@ namespace WebformPractice01.Pages.Board
         protected String _UserID { get; set; }
         protected int ItemID { get; set; }
 
-        protected bool IsNew = false;
+        protected bool IsNew = true;
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (string.IsNullOrEmpty(_UserID)) _UserID = "S0001";
-            if (string.IsNullOrEmpty(Request.QueryString["ItemID"]) || ItemID == 0) IsNew = true;
-            if (!string.IsNullOrEmpty(Request.QueryString["ItemID"])) ItemID = ItemID = Convert.ToInt32(Request.QueryString["ItemID"]); ;
-
+            if (!string.IsNullOrEmpty(Request.QueryString["ItemID"]) || ItemID != 0) IsNew = false;
+            if (!string.IsNullOrEmpty(Request.QueryString["ItemID"])) ItemID = Convert.ToInt32(Request.QueryString["ItemID"]);
+               
             if (!IsPostBack)
             {
                 if (!IsNew)
@@ -31,8 +31,6 @@ namespace WebformPractice01.Pages.Board
                     InitData(ItemID);
                 }
             }
-
-
         }
 
         public void InitData(int id)
@@ -60,7 +58,6 @@ namespace WebformPractice01.Pages.Board
             dto.Title = txt_Title.Text;
             dto.Contents = HttpUtility.HtmlEncode(txt_Contents.Text);
             dto.CreateUserID = _UserID;
-
 
             if (IsNew)
             {

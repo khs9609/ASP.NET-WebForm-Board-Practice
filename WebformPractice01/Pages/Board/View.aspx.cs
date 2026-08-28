@@ -20,13 +20,11 @@ namespace WebformPractice01.Pages.Board
         public String UserID {get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
                 ItemID = Convert.ToInt32(Request.Params["ItemID"]);
                 UserID = "S0001";
 
                 dto = setField(ItemID);
-            }
+
         }
 
         public BoardDTO setField(int id)
@@ -41,6 +39,21 @@ namespace WebformPractice01.Pages.Board
         protected void btnEdit_Click(object sender, EventArgs e)
         {
             Response.Redirect("Edit.aspx?ItemID=" +  Request.QueryString["ItemID"]);
+        }
+
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            BoardContext ctx = new BoardContext();
+            BoardDTO _dto = new BoardDTO();
+            _dto.ItemID = Convert.ToInt32(Request.Params["ItemID"]);
+
+            int delCount = ctx.DeleteBoardItem(_dto);
+            if(delCount > 0) Response.Redirect("./List.aspx");
+            else Response.Redirect("./Edit.aspx"); // 임시
+
+
+            // ClientScript.RegisterStartupScript(this.GetType(), "", "alert('삭제되었습니다.');location.href('./List.aspx')", true);
+            //
         }
     }
 }

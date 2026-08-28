@@ -129,6 +129,7 @@
                 }
             });
         }
+
     </script>
    
     <div class="board_title_area">
@@ -171,7 +172,12 @@
         <div>
            <button id="btnList" type="button" onclick="ToList();">목록</button>
            <asp:Button ID="btnEdit" Text="수정" OnClick="btnEdit_Click" runat="server" />
+           <asp:Button ID="btnDelete" Text="삭제" OnClick="btnDelete_Click" OnClientClick="return confirm('게시물 삭제?')" runat="server"/>
+           <!-- <button type="button" onclick="DeleteConfirm();">삭제</<!-- n> -->
         </div>
     </div>
-    <asp:Button Visible="false" runat="server"/>
+    
+    <div class="hi -->_areae" style="display:none">
+        <asp:Button Visible="false" runat="server"/>
+    </div>
 </asp:Content>

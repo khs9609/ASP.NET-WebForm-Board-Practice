@@ -14,6 +14,23 @@ namespace WebformPractice01.Context.Board
     {
         public BoardDTO _dto { get; set; }
 
+
+        public DataTable ListBoard(int CurrentPage, int PageSize, string type, string keyword)
+        {
+            using (DbCon db = new DbCon())
+            {
+                db.SetStoredProcedure("up_List_BoardSelect");
+                db.AddParameter("@PageIndex", CurrentPage);
+                db.AddParameter("@PageSize", PageSize);
+                db.AddParameter("@SearchType", type);
+                db.AddParameter("@SearchKeyword", keyword);
+
+                DataTable dt = db.ExecuteDataTable();
+
+                return dt;
+            }
+        }
+
         public BoardDTO SelectBoardItem(int id)
         {
             using (DbCon db = new DbCon())
@@ -57,6 +74,16 @@ namespace WebformPractice01.Context.Board
 
             }
         }
+        public int DeleteBoardItem(BoardDTO dto)
+        {
+            using (DbCon db = new DbCon())
+            {
+                db.SetStoredProcedure("up_Delete_BoardItem");
+                db.AddParameter("@ItemID", dto.ItemID);
+
+                return db.ExecuteNonQuery();
+            }
+        }
 
         public int BoardViewCountAdd(int itemID)
         {
@@ -68,6 +95,8 @@ namespace WebformPractice01.Context.Board
                 return Convert.ToInt32(db.ExecuteScalar());
             }
         }
+
+
         public int Select_Board_LikeOrDislike(int ItemID, string Type)
         {
             using (DbCon db = new DbCon())
