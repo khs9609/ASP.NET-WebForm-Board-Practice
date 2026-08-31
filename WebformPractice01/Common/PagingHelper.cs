@@ -8,8 +8,6 @@ namespace WebformPractice01.Common
 {
     public static class PagingHelper
     {
-
-        // 
         public static String CreatePaging(int CurrentPage, int PageSize, int TotalPage, string PageUrl, string QueryString )
         {
             StringBuilder sb = new StringBuilder();

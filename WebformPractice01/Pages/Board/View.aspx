@@ -7,6 +7,10 @@
             justify-content : space-between;
         }
 
+        .font-type-01 {
+            color : #aaaaaa;
+        }
+
         .board_title_area {
             padding : 10px 0px;
         }
@@ -45,6 +49,39 @@
             border : 1px solid #ddd;
             border-radius : 3px;
         }
+
+        /* 댓글 */
+        .board_comment_area  {
+            padding : 10px;
+            margin-top : 40px;
+            background-color : #f2f2f2;
+        }
+        
+        .board_comment_area p {
+            margin : 0px;
+        }
+
+        .board_comment_area .comment_header {
+            display : flex;
+            justify-content : space-between;
+            font-size : 12px;
+        }
+
+        .board_comment_area .comment_section {
+            padding : 20px 0px;
+            font-size : 16px;
+        }
+
+        .board_comment_area .comment_footer {
+            display : flex;
+            font-size : 12px;
+        }
+
+        .board_comment_area .comment_footer p:not(:first-child) {
+            padding-left : 10px;
+        }
+
+
 
     </style>
 
@@ -163,11 +200,9 @@
          <div class="board_data board_contents_data">
              <%: HttpUtility.HtmlDecode(dto.Contents) %>
          </div>
-         <div>
-         </div>
-
     </div>
 
+    <!-- 버튼 영역 -->
     <div class="board_button_area">
         <div>
            <button id="btnList" type="button" onclick="ToList();">목록</button>
@@ -175,6 +210,33 @@
            <asp:Button ID="btnDelete" Text="삭제" OnClick="btnDelete_Click" OnClientClick="return confirm('게시물 삭제?')" runat="server"/>
            <!-- <button type="button" onclick="DeleteConfirm();">삭제</<!-- n> -->
         </div>
+    </div>
+
+    <!-- 댓글 영역-->
+    <div class="board_comment_area">
+        <asp:Repeater ID="rpt_comment" runat="server">
+            <ItemTemplate>
+                <div class="comment_header">
+                    <p>🙂 김동현 </p>
+                    <p class="font-type-01">1일 전</p>
+                </div>
+            </ItemTemplate>
+        </asp:Repeater>
+
+        <div class="comment_header">
+            <p>🙂 김동현 </p>
+            <p class="font-type-01">1일 전</p>
+        </div>
+
+        <div class="comment_section">
+            This is comment contents.
+        </div>
+
+        <div class="comment_footer">
+            <p class="font-type-01">추천</p>
+            <p class="font-type-01">🚨신고</p>
+        </div>
+        
     </div>
     
     <div class="hi -->_areae" style="display:none">

@@ -16,14 +16,14 @@ namespace WebformPractice01.Pages.Board
     public partial class View : System.Web.UI.Page
     {
         public BoardDTO dto { get; set; }
-        public int ItemID {get; set;}
-        public String UserID {get; set; }
+        public int ItemID { get; set; }
+        public String UserID { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-                ItemID = Convert.ToInt32(Request.Params["ItemID"]);
-                UserID = "S0001";
+            ItemID = Convert.ToInt32(Request.Params["ItemID"]);
+            UserID = "S0001";
 
-                dto = setField(ItemID);
+            dto = setField(ItemID);
 
         }
 
@@ -38,7 +38,7 @@ namespace WebformPractice01.Pages.Board
 
         protected void btnEdit_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Edit.aspx?ItemID=" +  Request.QueryString["ItemID"]);
+            Response.Redirect("Edit.aspx?ItemID=" + Request.QueryString["ItemID"]);
         }
 
         protected void btnDelete_Click(object sender, EventArgs e)
@@ -48,7 +48,7 @@ namespace WebformPractice01.Pages.Board
             _dto.ItemID = Convert.ToInt32(Request.Params["ItemID"]);
 
             int delCount = ctx.DeleteBoardItem(_dto);
-            if(delCount > 0) Response.Redirect("./List.aspx");
+            if (delCount > 0) Response.Redirect("./List.aspx");
             else Response.Redirect("./Edit.aspx"); // 임시
 
 

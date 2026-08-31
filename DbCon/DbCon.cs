@@ -17,49 +17,49 @@ namespace DbConnection
 
         #endregion
 
-         /*
-        =========================================================
-            DbCon 사용 예제
+        /*
+       =========================================================
+           DbCon 사용 예제
 
-            // Stored Procedure 실행
-            using (DbCon db = new DbCon())
-            {
-                db.SetStoredProcedure("up_Board_Select");
+           // Stored Procedure 실행
+           using (DbCon db = new DbCon())
+           {
+               db.SetStoredProcedure("up_Board_Select");
 
-                db.AddParameter("@BoardNo", 1);
+               db.AddParameter("@BoardNo", 1);
 
-                DataTable dt = db.ExecuteDataTable();
-            }
+               DataTable dt = db.ExecuteDataTable();
+           }
 
-            // SQL 실행
-            using (DbCon db = new DbCon())
-            {
-                db.SetQuery("SELECT * FROM Board");
+           // SQL 실행
+           using (DbCon db = new DbCon())
+           {
+               db.SetQuery("SELECT * FROM Board");
 
-                DataTable dt = db.ExecuteDataTable();
-            }
+               DataTable dt = db.ExecuteDataTable();
+           }
 
-            // INSERT / UPDATE / DELETE
-            using (DbCon db = new DbCon())
-            {
-                db.SetStoredProcedure("up_Board_Insert");
+           // INSERT / UPDATE / DELETE
+           using (DbCon db = new DbCon())
+           {
+               db.SetStoredProcedure("up_Board_Insert");
 
-                db.AddParameter("@Title", "제목");
-                db.AddParameter("@Writer", "홍길동");
+               db.AddParameter("@Title", "제목");
+               db.AddParameter("@Writer", "홍길동");
 
-                db.ExecuteNonQuery();
-            }
+               db.ExecuteNonQuery();
+           }
 
-            // COUNT, MAX 등 단일 값 조회
-            using (DbCon db = new DbCon())
-            {
-                db.SetStoredProcedure("up_Board_Count");
+           // COUNT, MAX 등 단일 값 조회
+           using (DbCon db = new DbCon())
+           {
+               db.SetStoredProcedure("up_Board_Count");
 
-                int count = Convert.ToInt32(db.ExecuteScalar());
-            }
+               int count = Convert.ToInt32(db.ExecuteScalar());
+           }
 
-        =========================================================
-        */
+       =========================================================
+       */
 
         #region Constructor
 

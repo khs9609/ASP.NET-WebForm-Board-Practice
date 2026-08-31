@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Http;
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Security;
 using System.Web.SessionState;
+using WebformPractice01.App_Start;
 
 namespace WebformPractice01
 {
@@ -16,6 +18,7 @@ namespace WebformPractice01
             // 애플리케이션 시작 시 실행되는 코드
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            GlobalConfiguration.Configure(webApiConfig.Register);
         }
     }
 }

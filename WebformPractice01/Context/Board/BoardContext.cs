@@ -45,12 +45,13 @@ namespace WebformPractice01.Context.Board
                 board.Contents = dt.Rows[0]["Contents"].ToString();
                 board.CreateUserName = dt.Rows[0]["CreateUserName"].ToString();
                 board.CreateDT = Convert.ToDateTime(dt.Rows[0]["CreateDT"]);
-                
+
                 return board;
             }
         }
 
-        public void InsertBoardItem(BoardDTO dto) {
+        public void InsertBoardItem(BoardDTO dto)
+        {
             using (DbCon db = new DbCon())
             {
                 db.SetStoredProcedure("up_Insert_BoardItem");
@@ -62,7 +63,8 @@ namespace WebformPractice01.Context.Board
             }
         }
 
-        public void UpdateBoardItem(BoardDTO dto) {
+        public void UpdateBoardItem(BoardDTO dto)
+        {
             using (DbCon db = new DbCon())
             {
                 db.SetStoredProcedure("up_Update_BoardItem");
